@@ -1,3 +1,5 @@
+import { readFile } from "node:fs/promises";
+import { join } from "node:path";
 import { ImageResponse } from "next/og";
 
 /** Prévia do link quando alguém "manda no grupo" (WhatsApp, Instagram…). */
@@ -5,7 +7,10 @@ export const alt = "Uboatt · Entre a bordo antes de embarcar. Tour 360° da emb
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
-export default function OpenGraphImage() {
+export default async function OpenGraphImage() {
+  const logo = await readFile(join(process.cwd(), "public/brand/uboatt-logo-branco.png"));
+  const logoSrc = `data:image/png;base64,${logo.toString("base64")}`;
+
   return new ImageResponse(
     (
       <div
@@ -21,24 +26,9 @@ export default function OpenGraphImage() {
           fontFamily: "sans-serif",
         }}
       >
-        <div style={{ display: "flex", alignItems: "center", gap: 18 }}>
-          <div
-            style={{
-              width: 64,
-              height: 64,
-              borderRadius: 18,
-              background: "#FFFFFF",
-              color: "#062B55",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              fontSize: 40,
-              fontWeight: 800,
-            }}
-          >
-            U
-          </div>
-          <div style={{ fontSize: 34, fontWeight: 800, letterSpacing: 6 }}>UBOATT</div>
+        <div style={{ display: "flex", alignItems: "center", gap: 28 }}>
+          {/* eslint-disable-next-line @next/next/no-img-element -- ImageResponse só aceita <img> */}
+          <img src={logoSrc} alt="Uboatt" width={352} height={100} />
           <div
             style={{
               marginLeft: 16,

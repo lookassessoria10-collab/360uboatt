@@ -14,8 +14,8 @@ export function TourHeader({ onClose, fullscreen }: TourHeaderProps) {
   return (
     <header className="flex min-h-14 shrink-0 items-center justify-between gap-2 bg-navy-950 pt-[env(safe-area-inset-top)] pr-2 pl-3 text-white sm:min-h-16 sm:pr-4 sm:pl-5">
       <div className="flex min-w-0 items-center gap-2 sm:gap-3">
-        <UboattLogo tone="light" compact className="sm:hidden" />
-        <UboattLogo tone="light" className="max-sm:hidden" />
+        <UboattLogo tone="light" compact priority className="h-8 sm:hidden" />
+        <UboattLogo tone="light" priority className="h-9 max-sm:hidden" />
         <span aria-hidden="true" className="hidden h-6 w-px bg-white/15 sm:block" />
         <span className="flex items-center gap-1.5 text-sm font-semibold">
           <Icon360 className="w-7 text-sea-300" />

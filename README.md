@@ -96,11 +96,11 @@ components/
     PrototypeBadge.tsx     selo permanente PROTÓTIPO
     ...                    header, menu mobile, seções e rodapé
   ui/                      Sheet (<dialog> nativo), Toast, botões, Photo, ícone 360
-  brand/UboattLogo.tsx     logo (placeholder textual até o arquivo oficial chegar)
+  brand/UboattLogo.tsx     marca oficial (logo completo ou só o símbolo, claro/escuro)
 data/
   demoBoat.ts              embarcação demonstrativa + cenas futuras
   media.ts                 fotos de ambientação (Unsplash) e créditos
-  brand.ts                 caminho do logo oficial
+  brand.ts                 arquivos e proporções da marca
 types/
   tour.ts                  BoatScene, TourHotspot, TourTarget, TourMode…
   boat.ts                  Boat, BoatSpace, BoatMapZone, GuidedStep
@@ -108,7 +108,7 @@ types/
 lib/                       compartilhamento, URL do Matterport, tela cheia,
                            orientação do celular, sessionStorage, rota #a-bordo
 public/
-  brand/                   logo e fotos próprias da Uboatt
+  brand/                   marca oficial (logo, versão clara e símbolo) e fotos próprias
   boats/                   panoramas de cada embarcação
 ```
 
@@ -225,7 +225,7 @@ Botões do mapa, cards e etapas do tour guiado usam `target: { sceneId, yaw?, pi
 
 ## Identidade e imagens
 
-- **Logo:** salve o arquivo em `public/brand/` e preencha `logo` / `logoOnDark` em `data/brand.ts`. Enquanto isso, aparece o placeholder "UBOATT".
+- **Marca:** os arquivos em `public/brand/` foram gerados a partir do logo oficial do site (`https://uboatt.com.br/image/logo.png`): `uboatt-logo.png` (fundos claros), `uboatt-logo-branco.png` (fundos escuros, com o azul-marinho trocado por branco), `uboatt-simbolo*.png` (só o símbolo, usado no topo do tour no celular) e os favicons `app/icon.png` / `app/apple-icon.png`. Para trocar por arquivos novos (ex.: um SVG oficial), substitua em `public/brand/` e ajuste largura/altura em `data/brand.ts`.
 - **Fotos:** as fotos de ambientação vêm do Unsplash (licença livre, créditos no rodapé) e são servidas pelo CDN do Unsplash. Para usar fotos próprias, coloque-as em `public/brand/` e troque `src` em `data/media.ts`.
 - Cores e animações ficam em `app/globals.css` (`@theme`).
 

@@ -1,15 +1,22 @@
 /**
  * Identidade Uboatt.
  *
- * Enquanto o arquivo oficial da marca não estiver no projeto, o logo é um
- * placeholder textual. Para usar o logo real, salve o arquivo em
- * `public/brand/` e preencha `logo`, por exemplo:
- *   logo: { src: "/brand/uboatt-logo.svg", width: 132, height: 32 }
- *   logoOnDark: { src: "/brand/uboatt-logo-branco.svg", width: 132, height: 32 }
+ * Arquivos gerados a partir do logo oficial (https://uboatt.com.br/image/logo.png):
+ * - uboatt-logo.png          logo completo, para fundos claros
+ * - uboatt-logo-branco.png   logo completo, para fundos escuros (azul-marinho → branco)
+ * - uboatt-simbolo*.png      só o símbolo, para espaços estreitos
+ * Para trocar, substitua os arquivos em `public/brand/` mantendo as proporções
+ * ou ajuste largura/altura abaixo.
  */
 export const brand = {
   name: "Uboatt",
   siteUrl: "https://uboatt.com.br/pt",
-  logo: null as null | { src: string; width: number; height: number },
-  logoOnDark: null as null | { src: string; width: number; height: number },
+  logo: {
+    dark: { src: "/brand/uboatt-logo.png", width: 640, height: 182 },
+    light: { src: "/brand/uboatt-logo-branco.png", width: 640, height: 182 },
+  },
+  symbol: {
+    dark: { src: "/brand/uboatt-simbolo.png", width: 290, height: 192 },
+    light: { src: "/brand/uboatt-simbolo-branco.png", width: 290, height: 192 },
+  },
 };

@@ -15,8 +15,7 @@ export function SiteHeader() {
     <header className="sticky top-0 z-40 border-b border-line/80 bg-white/85 backdrop-blur-md">
       <div className="mx-auto flex h-16 max-w-7xl items-center gap-2 px-4 sm:gap-3 sm:px-6 lg:px-8">
         <Link href="/boat-tour" aria-label="Uboatt — início" className="shrink-0 rounded-lg">
-          <UboattLogo compact className="min-[440px]:hidden" />
-          <UboattLogo className="max-[439px]:hidden" />
+          <UboattLogo priority className="h-9 lg:h-11" />
         </Link>
         <PrototypeBadge className="ml-1" />
 
@@ -39,7 +38,8 @@ export function SiteHeader() {
           <PlanButton size="sm" className="max-sm:hidden">
             Planejar passeio
           </PlanButton>
-          <PlanButton size="sm" className="px-3.5 sm:hidden" ariaLabel="Planejar passeio">
+          {/* Abaixo de 440px o logo completo precisa do espaço: "Planejar" fica no menu. */}
+          <PlanButton size="sm" className="px-3.5 max-[439px]:hidden sm:hidden" ariaLabel="Planejar passeio">
             Planejar
           </PlanButton>
           <MobileMenu links={links} />

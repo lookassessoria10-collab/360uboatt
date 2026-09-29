@@ -1,8 +1,10 @@
 "use client";
 
-import { ChevronRight, Menu } from "lucide-react";
+import { CalendarDays, ChevronRight, Menu } from "lucide-react";
 import { useState } from "react";
+import { buttonClass } from "@/components/ui/button";
 import { Sheet, useSheet } from "@/components/ui/Sheet";
+import { useBoatTour } from "./BoatTourProvider";
 
 export interface NavLink {
   href: string;
@@ -32,6 +34,7 @@ export function MobileMenu({ links }: { links: NavLink[] }) {
 
 function MenuLinks({ links }: { links: NavLink[] }) {
   const { close } = useSheet();
+  const { openPlanner } = useBoatTour();
   return (
     <nav aria-label="Principal">
       <ul className="divide-y divide-line">
@@ -53,6 +56,17 @@ function MenuLinks({ links }: { links: NavLink[] }) {
           </li>
         ))}
       </ul>
+      <button
+        type="button"
+        onClick={() => {
+          close();
+          openPlanner("form");
+        }}
+        className={buttonClass({ variant: "primary", size: "lg", block: true, className: "mt-5" })}
+      >
+        <CalendarDays className="size-5" aria-hidden="true" />
+        Planejar passeio
+      </button>
     </nav>
   );
 }
