@@ -1,0 +1,266 @@
+@import "tailwindcss";
+
+/* ------------------------------------------------------------------ */
+/* Tokens Uboatt                                                       */
+/* ------------------------------------------------------------------ */
+@theme {
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+
+  /* Azul-marinho profundo */
+  --color-navy-950: #041c38;
+  --color-navy-900: #062b55;
+  --color-navy-800: #0b3a6b;
+  --color-navy-700: #154b82;
+
+  /* Azul médio (ocean-700 é a variação segura para texto pequeno sobre branco) */
+  --color-ocean-700: #0e6fa3;
+  --color-ocean-500: #168bc5;
+
+  /* Azul claro */
+  --color-sea-400: #24a9e0;
+  --color-sea-300: #62c2ea;
+  --color-sea-200: #a9dcf3;
+  --color-sea-100: #d9f0fa;
+  --color-sea-50: #eef8fd;
+
+  /* Neutros */
+  --color-mist: #f4f7f9;
+  --color-ink-600: #45596f;
+  --color-ink-500: #5a6d83;
+  --color-line: #dde6ee;
+
+  --ease-soft: cubic-bezier(0.22, 1, 0.36, 1);
+
+  --animate-fade-in: fade-in 0.35s var(--ease-soft) both;
+  --animate-fade-up: fade-up 0.5s var(--ease-soft) both;
+  --animate-scale-in: scale-in 0.45s var(--ease-soft) both;
+  --animate-ripple: ripple 2.6s ease-out infinite;
+  --animate-swipe: swipe 1.5s ease-in-out infinite;
+  --animate-drift: drift 28s ease-in-out infinite alternate;
+  --animate-progress: progress 1.6s ease-in-out infinite;
+  --animate-wave: wave 3.2s ease-in-out infinite;
+
+  @keyframes fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  @keyframes fade-up {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: none; }
+  }
+  @keyframes scale-in {
+    from { opacity: 0; transform: scale(0.985); }
+    to { opacity: 1; transform: none; }
+  }
+  @keyframes ripple {
+    0% { transform: scale(0.6); opacity: 0.55; }
+    100% { transform: scale(1.6); opacity: 0; }
+  }
+  @keyframes swipe {
+    0%, 100% { transform: translateX(-18px) rotate(-6deg); }
+    50% { transform: translateX(18px) rotate(6deg); }
+  }
+  @keyframes drift {
+    from { transform: scale(1.08) translate3d(-1.5%, 0, 0); }
+    to { transform: scale(1.08) translate3d(1.5%, -1%, 0); }
+  }
+  @keyframes progress {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(250%); }
+  }
+  @keyframes wave {
+    0%, 100% { transform: translateX(0); }
+    50% { transform: translateX(-12px); }
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* Base                                                                */
+/* ------------------------------------------------------------------ */
+@layer base {
+  html {
+    color-scheme: light;
+    -webkit-tap-highlight-color: transparent;
+    text-size-adjust: 100%;
+  }
+
+  body {
+    background: var(--color-mist);
+    color: var(--color-navy-900);
+    font-family: var(--font-sans);
+    overflow-x: clip;
+  }
+
+  :focus-visible {
+    outline: 3px solid var(--color-ocean-500);
+    outline-offset: 2px;
+  }
+
+  ::selection {
+    background: var(--color-sea-200);
+    color: var(--color-navy-900);
+  }
+
+  [id] {
+    scroll-margin-top: 88px;
+  }
+
+  button:not(:disabled),
+  [role="button"] {
+    cursor: pointer;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+/* Trava a rolagem da página enquanto o tour ou um painel modal está aberto. */
+html:has(dialog[open]) {
+  overflow: hidden;
+}
+
+/* ------------------------------------------------------------------ */
+/* Sheet: drawer lateral (desktop) / bottom sheet (mobile)             */
+/* Construído sobre <dialog> nativo: foco preso, Esc e top layer.      */
+/* ------------------------------------------------------------------ */
+.sheet {
+  position: fixed;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  max-width: 100vw;
+  max-height: 100dvh;
+  overflow: visible;
+}
+
+.sheet::backdrop {
+  background: rgb(4 28 56 / 0.5);
+  animation: fade-in 0.25s ease both;
+}
+
+.sheet-panel {
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  box-shadow: 0 -12px 48px rgb(4 28 56 / 0.18);
+  overscroll-behavior: contain;
+}
+
+/* Bottom sheet (mobile e placement="bottom") */
+.sheet[data-placement="responsive"],
+.sheet[data-placement="bottom"] {
+  inset: auto 0 0 0;
+  margin: 0;
+  width: 100%;
+}
+
+.sheet[data-placement="responsive"] .sheet-panel,
+.sheet[data-placement="bottom"] .sheet-panel {
+  max-height: min(90dvh, 900px);
+  border-radius: 24px 24px 0 0;
+  animation: sheet-up 0.38s var(--ease-soft) both;
+}
+
+/* Diálogo central */
+.sheet[data-placement="center"] {
+  inset: 0;
+  margin: auto;
+  width: min(440px, calc(100vw - 32px));
+  height: fit-content;
+}
+
+.sheet[data-placement="center"] .sheet-panel {
+  max-height: calc(100dvh - 32px);
+  border-radius: 24px;
+  animation: scale-in 0.3s var(--ease-soft) both;
+}
+
+/* Drawer lateral a partir de 1024px */
+@media (min-width: 1024px) {
+  .sheet[data-placement="responsive"] {
+    inset: 0 0 0 auto;
+    width: min(460px, 100vw);
+    height: 100dvh;
+  }
+
+  .sheet[data-placement="responsive"] .sheet-panel {
+    height: 100%;
+    max-height: none;
+    border-radius: 24px 0 0 24px;
+    box-shadow: -12px 0 48px rgb(4 28 56 / 0.18);
+    animation-name: sheet-left;
+  }
+}
+
+.sheet[data-closing] .sheet-panel {
+  animation: sheet-out-down 0.2s ease-in both;
+}
+
+.sheet[data-closing]::backdrop {
+  animation: fade-out 0.2s ease-in both;
+}
+
+.sheet[data-placement="center"][data-closing] .sheet-panel {
+  animation-name: fade-out;
+}
+
+@media (min-width: 1024px) {
+  .sheet[data-placement="responsive"][data-closing] .sheet-panel {
+    animation-name: sheet-out-right;
+  }
+}
+
+@keyframes sheet-up {
+  from { transform: translateY(100%); }
+  to { transform: none; }
+}
+@keyframes sheet-left {
+  from { transform: translateX(100%); }
+  to { transform: none; }
+}
+@keyframes sheet-out-down {
+  to { transform: translateY(100%); }
+}
+@keyframes sheet-out-right {
+  to { transform: translateX(100%); }
+}
+@keyframes fade-out {
+  to { opacity: 0; }
+}
+
+/* Toast em top layer (popover): remove estilos padrão do UA; a posição vem das classes. */
+.toast[popover] {
+  top: auto;
+  margin-block: 0;
+  border: 0;
+  padding: 0;
+  background: transparent;
+  overflow: visible;
+}
+
+/* Utilitário: esconde a barra de rolagem mantendo a rolagem. */
+.no-scrollbar {
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* ------------------------------------------------------------------ */
+/* Movimento reduzido                                                  */
+/* ------------------------------------------------------------------ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after,
+  .sheet::backdrop {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
